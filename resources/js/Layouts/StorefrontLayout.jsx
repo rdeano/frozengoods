@@ -24,7 +24,7 @@ export default function StorefrontLayout({ children }) {
 
     const messengerHref = fbPageUsername ? `https://m.me/${fbPageUsername}` : null;
 
-    const navLinks = [
+    const navLinks = [ 
         { label: 'Home', href: '/' },
         { label: 'Products', href: '/products' },
     ];
