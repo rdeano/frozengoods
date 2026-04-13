@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/laragon/www/**)",
+      "Bash(php --version)",
+      "Bash(composer --version)",
+      "Bash(npm --version)",
+      "Bash(/c/laragon/bin/php/php8.3.*/php.exe --version)",
+      "Read(//c/laragon/bin/php//**)",
+      "Bash(export PATH=\"/c/laragon/bin/php/php-8.3.30-Win32-vs16-x64:/c/laragon/bin/composer:/c/laragon/bin/mysql/mysql-8.0.36-winx64/bin:$PATH\")",
+      "Bash(export PATH=\"/c/laragon/bin/php/php-8.3.30-Win32-vs16-x64:/c/laragon/bin/composer:$PATH\")",
+      "Bash(composer create-project:*)",
+      "Bash(export:*)",
+      "Bash(composer require:*)",
+      "Bash(php artisan:*)",
+      "Bash(npm install:*)",
+      "Bash(mysql -u root -e \"CREATE DATABASE IF NOT EXISTS fgshop CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\")",
+      "Bash(npm run:*)",
+      "Bash(kill %1)",
+      "Bash(mysql -u root -e \"SELECT 1;\")"
+    ]
+  }
+}
