@@ -10,7 +10,7 @@ import Alert from '@mui/material/Alert';
 import { CheckCircleOutlined as CheckCircleOutlineIcon } from '@mui/icons-material';
 import StatusBadge from '../../Components/StatusBadge';
 
-export default function OrderConfirmation({ order, fbPageUsername, fbPageId }) {
+export default function OrderConfirmation({ order, fbPageUsername }) {
     const messengerUrl = fbPageUsername
         ? `https://m.me/${fbPageUsername}?text=${encodeURIComponent(
             `Hi! I just placed Order #${order.id} on your website.`
@@ -49,33 +49,22 @@ export default function OrderConfirmation({ order, fbPageUsername, fbPageId }) {
                     </Typography>
 
                     {messengerUrl ? (
-                        <Stack spacing={1.5}>
-                            <Button
-                                href={messengerUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                variant="contained"
-                                fullWidth
-                                sx={{
-                                    background: '#1877F2',
-                                    fontSize: 15,
-                                    fontWeight: 600,
-                                    py: 1.5,
-                                    '&:hover': { background: '#1464d8' },
-                                }}
-                            >
-                                Message us on Messenger
-                            </Button>
-                            {fbPageId && (
-                                <Typography sx={{ fontSize: 12, color: '#8A94A6', textAlign: 'center' }}>
-                                    You can also use the chat bubble at the bottom-right corner.
-                                </Typography>
-                            )}
-                        </Stack>
-                    ) : fbPageId ? (
-                        <Alert severity="info" sx={{ fontSize: 13 }}>
-                            Use the chat bubble at the bottom-right corner of this page to message us on Messenger.
-                        </Alert>
+                        <Button
+                            href={messengerUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            variant="contained"
+                            fullWidth
+                            sx={{
+                                background: '#1877F2',
+                                fontSize: 15,
+                                fontWeight: 600,
+                                py: 1.5,
+                                '&:hover': { background: '#1464d8' },
+                            }}
+                        >
+                            Message us on Messenger
+                        </Button>
                     ) : (
                         <Alert severity="info" sx={{ fontSize: 13 }}>
                             Please contact us directly to confirm your order and arrange payment.

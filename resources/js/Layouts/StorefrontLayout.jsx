@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,24 +13,16 @@ import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import Tooltip from '@mui/material/Tooltip';
 import { ShoppingCart as ShoppingCartIcon, Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
 import { useCart } from '../Contexts/CartContext';
 
 export default function StorefrontLayout({ children }) {
-    const { appName, fbPageId } = usePage().props;
+    const { appName, fbPageUsername } = usePage().props;
     const { count } = useCart();
     const [drawerOpen, setDrawerOpen] = useState(false);
 
-    useEffect(() => {
-        if (!fbPageId) return;
-        window.fbAsyncInit = function () {
-            FB.init({ xfbml: true, version: 'v19.0' });
-        };
-        const script = document.createElement('script');
-        script.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-        script.async = true;
-        document.body.appendChild(script);
-    }, [fbPageId]);
+    const messengerHref = fbPageUsername ? `https://m.me/${fbPageUsername}` : null;
 
     const navLinks = [
         { label: 'Home', href: '/' },
@@ -178,14 +170,41 @@ export default function StorefrontLayout({ children }) {
                 </Container>
             </Box>
 
-            {fbPageId && (
-                <>
-                    <div id="fb-root" />
-                    <div className="fb-customerchat" attribution="biz_inbox" page_id={fbPageId}
-                        theme_color="#1877F2"
-                        logged_out_greeting="Hi! How can we help you?"
-                        logged_in_greeting="Hi! Any questions about your order?" />
-                </>
+            {/* Floating Messenger button */}
+            {messengerHref && (
+                <Tooltip title="Message us on Messenger" placement="left">
+                    <Box
+                        component="a"
+                        href={messengerHref}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        sx={{
+                            position: 'fixed',
+                            bottom: { xs: 20, md: 28 },
+                            right: { xs: 20, md: 28 },
+                            zIndex: 1300,
+                            width: 56,
+                            height: 56,
+                            borderRadius: '50%',
+                            bgcolor: '#1877F2',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            boxShadow: '0 4px 16px rgba(24,119,242,0.45)',
+                            textDecoration: 'none',
+                            transition: 'transform 0.15s, box-shadow 0.15s',
+                            '&:hover': {
+                                transform: 'scale(1.08)',
+                                boxShadow: '0 6px 20px rgba(24,119,242,0.55)',
+                            },
+                        }}
+                    >
+                        {/* Messenger logo SVG */}
+                        <Box component="svg" viewBox="0 0 24 24" sx={{ width: 28, height: 28, fill: '#fff' }}>
+                            <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.806 1.27 5.312 3.285 7.03L5.25 21l2.565-1.327A10.7 10.7 0 0 0 12 20.52c5.523 0 10-4.145 10-9.261S17.523 2 12 2zm1.07 12.482-2.557-2.72-4.99 2.72 5.49-5.826 2.617 2.72 4.93-2.72-5.49 5.826z" />
+                        </Box>
+                    </Box>
+                </Tooltip>
             )}
         </Box>
     );
