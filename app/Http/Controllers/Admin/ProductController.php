@@ -13,15 +13,20 @@ use Inertia\Response;
 
 class ProductController extends Controller
 {
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $search = $request->input('search', '');
+
         $products = Product::with('category')
+            ->when($search, fn ($q) => $q->where('name', 'like', "%{$search}%"))
             ->orderByDesc('created_at')
-            ->get()
-            ->append('image_url');
+            ->paginate(15)
+            ->through(fn ($p) => $p->append('image_url'))
+            ->withQueryString();
 
         return Inertia::render('Admin/Products/Index', [
             'products' => $products,
+            'filters'  => ['search' => $search],
         ]);
     }
 

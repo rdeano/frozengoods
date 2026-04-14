@@ -13,7 +13,7 @@ class AdminSeeder extends Seeder
         $role = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
 
         $admin = User::firstOrCreate(
-            ['email' => 'admin@fgshop.local'],
+            ['email' => 'admin@frozen.com'],
             [
                 'name'     => 'Admin',
                 'password' => bcrypt('password'),

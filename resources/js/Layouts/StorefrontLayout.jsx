@@ -14,6 +14,7 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Tooltip from '@mui/material/Tooltip';
+import Badge from '@mui/material/Badge';
 import { ShoppingCart as ShoppingCartIcon, Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
 import { useCart } from '../Contexts/CartContext';
 
@@ -68,21 +69,37 @@ export default function StorefrontLayout({ children }) {
                         </Stack>
 
                         {/* Cart button */}
-                        <Button
-                            component={Link}
-                            href="/cart"
-                            variant="contained"
-                            startIcon={<ShoppingCartIcon sx={{ fontSize: '18px !important' }} />}
+                        <Badge
+                            badgeContent={count}
+                            color="error"
+                            overlap="circular"
                             sx={{
-                                bgcolor: '#FF6B35', fontWeight: 600, fontSize: 14,
-                                px: { xs: 1.5, md: 2.5 }, height: { xs: 40, md: 40 },
-                                minWidth: 'auto',
-                                '&:hover': { bgcolor: '#e55a26' },
+                                '& .MuiBadge-badge': {
+                                    bgcolor: '#FF6B35',
+                                    fontSize: 11,
+                                    fontWeight: 700,
+                                    minWidth: 18,
+                                    height: 18,
+                                    top: 4,
+                                    right: 4,
+                                },
                             }}
                         >
-                            <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>Cart</Box>
-                            {count > 0 && <Box component="span" sx={{ ml: { xs: 0, sm: 0.5 } }}>({count})</Box>}
-                        </Button>
+                            <Button
+                                component={Link}
+                                href="/cart"
+                                variant="contained"
+                                startIcon={<ShoppingCartIcon sx={{ fontSize: '18px !important' }} />}
+                                sx={{
+                                    bgcolor: '#FF6B35', fontWeight: 600, fontSize: 14,
+                                    px: { xs: 1.5, md: 2.5 }, height: { xs: 40, md: 40 },
+                                    minWidth: 'auto',
+                                    '&:hover': { bgcolor: '#e55a26' },
+                                }}
+                            >
+                                <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>Cart</Box>
+                            </Button>
+                        </Badge>
 
                         {/* Mobile hamburger */}
                         <IconButton

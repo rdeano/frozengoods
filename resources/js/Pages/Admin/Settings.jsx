@@ -34,7 +34,7 @@ export default function Settings({ settings }) {
 
             {flash?.success && <Alert severity="success" sx={{ mb: 2 }}>{flash.success}</Alert>}
 
-            <Box component="form" onSubmit={submit} sx={{ maxWidth: 560 }}>
+            <Box component="form" onSubmit={submit} sx={{ maxWidth: { xs: '100%', sm: 560 } }}>
                 <Stack spacing={3}>
                     <Box>
                         <Typography variant="h2" sx={{ mb: 2 }}>Business</Typography>

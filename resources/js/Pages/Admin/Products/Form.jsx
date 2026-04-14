@@ -37,7 +37,7 @@ export default function ProductForm({ categories, product }) {
         <AdminLayout title={isEdit ? 'Edit Product' : 'Add Product'}>
             <Head title={isEdit ? 'Edit Product' : 'Add Product'} />
 
-            <Box component="form" onSubmit={submit} sx={{ maxWidth: 560 }}>
+            <Box component="form" onSubmit={submit} sx={{ maxWidth: { xs: '100%', sm: 560 } }}>
                 <Stack spacing={2}>
                     <TextField
                         select
@@ -123,15 +123,16 @@ export default function ProductForm({ categories, product }) {
                         )}
                     </Box>
 
-                    <Stack direction="row" spacing={2}>
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                         <Button
                             type="submit"
                             variant="contained"
                             disabled={processing}
+                            fullWidth
                         >
                             {isEdit ? 'Update product' : 'Create product'}
                         </Button>
-                        <Button href="/admin/products" variant="outlined">
+                        <Button href="/admin/products" variant="outlined" fullWidth>
                             Cancel
                         </Button>
                     </Stack>

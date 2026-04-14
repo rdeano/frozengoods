@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Head, router, usePage } from '@inertiajs/react';
 import AdminLayout from '../../../Layouts/AdminLayout';
 import Typography from '@mui/material/Typography';
@@ -16,9 +17,24 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TableContainer from '@mui/material/TableContainer';
 import StatusBadge from '../../../Components/StatusBadge';
-import { useState } from 'react';
 
 const STATUSES = ['pending', 'confirmed', 'out_for_delivery', 'delivered', 'cancelled'];
+
+const STATUS_LABELS = {
+    pending:          'Pending',
+    confirmed:        'Confirmed',
+    out_for_delivery: 'Out for delivery',
+    delivered:        'Delivered',
+    cancelled:        'Cancelled',
+};
+
+function formatDate(dateStr) {
+    if (!dateStr) return '—';
+    return new Date(dateStr).toLocaleString('en-PH', {
+        month: 'short', day: 'numeric', year: 'numeric',
+        hour: 'numeric', minute: '2-digit', hour12: true,
+    });
+}
 
 export default function OrderShow({ order }) {
     const { flash } = usePage().props;
@@ -44,6 +60,10 @@ export default function OrderShow({ order }) {
                         <Stack direction="row" justifyContent="space-between">
                             <Typography variant="body2">Order ID</Typography>
                             <Typography sx={{ fontWeight: 600 }}>#{order.id}</Typography>
+                        </Stack>
+                        <Stack direction="row" justifyContent="space-between">
+                            <Typography variant="body2">Date placed</Typography>
+                            <Typography sx={{ fontSize: 13 }}>{formatDate(order.created_at)}</Typography>
                         </Stack>
                         <Stack direction="row" justifyContent="space-between">
                             <Typography variant="body2">Status</Typography>
@@ -92,7 +112,7 @@ export default function OrderShow({ order }) {
                     >
                         {STATUSES.map(s => (
                             <MenuItem key={s} value={s} sx={{ fontSize: 13 }}>
-                                {s.replace(/_/g, ' ')}
+                                {STATUS_LABELS[s]}
                             </MenuItem>
                         ))}
                     </Select>
@@ -109,8 +129,8 @@ export default function OrderShow({ order }) {
 
             {/* Items */}
             <Box sx={{ mt: 3 }}>
-                <Typography variant="h2" sx={{ mb: 2 }}>Items</Typography>
-                <TableContainer component={Paper} sx={{ border: '0.5px solid #E8ECF2', boxShadow: 'none' }}>
+                <Typography variant="h2" sx={{ mb: 2 }}>Items ordered</Typography>
+                <TableContainer component={Paper} sx={{ border: '0.5px solid #E8ECF2', boxShadow: 'none', overflowX: 'auto' }}>
                     <Table size="small">
                         <TableHead>
                             <TableRow>
@@ -123,21 +143,30 @@ export default function OrderShow({ order }) {
                         <TableBody>
                             {order.items?.map(item => (
                                 <TableRow key={item.id}>
-                                    <TableCell>{item.product_name}</TableCell>
+                                    <TableCell sx={{ maxWidth: 320 }}>
+                                        <Typography sx={{ fontSize: 13, fontWeight: 500 }}>
+                                            {item.product_name}
+                                        </Typography>
+                                        {item.product?.description && (
+                                            <Typography variant="body2" sx={{ color: '#8A94A6', mt: 0.25 }}>
+                                                {item.product.description}
+                                            </Typography>
+                                        )}
+                                    </TableCell>
                                     <TableCell align="center">{item.qty}</TableCell>
-                                    <TableCell align="right">₱{item.unit_price}</TableCell>
-                                    <TableCell align="right" sx={{ fontWeight: 600 }}>₱{item.subtotal}</TableCell>
+                                    <TableCell align="right" sx={{ whiteSpace: 'nowrap' }}>₱{item.unit_price}</TableCell>
+                                    <TableCell align="right" sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>₱{item.subtotal}</TableCell>
                                 </TableRow>
                             ))}
                             {parseFloat(order.delivery_fee) > 0 && (
                                 <TableRow>
                                     <TableCell colSpan={3} sx={{ color: '#8A94A6' }}>Delivery fee</TableCell>
-                                    <TableCell align="right">₱{order.delivery_fee}</TableCell>
+                                    <TableCell align="right" sx={{ whiteSpace: 'nowrap' }}>₱{order.delivery_fee}</TableCell>
                                 </TableRow>
                             )}
                             <TableRow>
                                 <TableCell colSpan={3} sx={{ fontWeight: 700 }}>Total</TableCell>
-                                <TableCell align="right" sx={{ fontWeight: 700, color: '#0B3D91' }}>
+                                <TableCell align="right" sx={{ fontWeight: 700, color: '#0B3D91', whiteSpace: 'nowrap' }}>
                                     ₱{order.total}
                                 </TableCell>
                             </TableRow>

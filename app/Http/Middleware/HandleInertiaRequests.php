@@ -28,6 +28,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'appName'        => Setting::get('business_name', config('app.name')),
             'fbPageUsername' => Setting::get('fb_page_username', ''),
+            'fbPageId'       => Setting::get('fb_page_id', ''),
         ];
     }
 }

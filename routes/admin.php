@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SettingsController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,5 +22,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('settings', [SettingsController::class, 'index'])->name('settings');
     Route::put('settings', [SettingsController::class, 'update'])->name('settings.update');
 
+    Route::get('reports', ReportController::class)->name('reports');
     Route::get('activity', ActivityController::class)->name('activity');
 });

@@ -55,13 +55,14 @@ export default function CategoriesIndex({ categories }) {
             {/* Add form */}
             <Box component="form" onSubmit={submitCreate} sx={{ mb: 3 }}>
                 <Typography variant="h2" sx={{ mb: 2 }}>Add category</Typography>
-                <Stack direction="row" spacing={2} alignItems="center">
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems={{ sm: 'center' }}>
                     <TextField
                         label="Name"
                         value={createForm.data.name}
                         onChange={e => createForm.setData('name', e.target.value)}
                         error={!!createForm.errors.name}
                         helperText={createForm.errors.name}
+                        fullWidth
                         required
                     />
                     <TextField
@@ -69,15 +70,20 @@ export default function CategoriesIndex({ categories }) {
                         type="number"
                         value={createForm.data.sort_order}
                         onChange={e => createForm.setData('sort_order', e.target.value)}
-                        sx={{ width: 120 }}
+                        sx={{ width: { xs: '100%', sm: 120 } }}
                     />
-                    <Button type="submit" variant="contained" disabled={createForm.processing}>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        disabled={createForm.processing}
+                        sx={{ whiteSpace: 'nowrap', width: { xs: '100%', sm: 'auto' } }}
+                    >
                         Add
                     </Button>
                 </Stack>
             </Box>
 
-            <TableContainer component={Paper} sx={{ border: '0.5px solid #E8ECF2', boxShadow: 'none' }}>
+            <TableContainer component={Paper} sx={{ border: '0.5px solid #E8ECF2', boxShadow: 'none', overflowX: 'auto' }}>
                 <Table size="small">
                     <TableHead>
                         <TableRow>
